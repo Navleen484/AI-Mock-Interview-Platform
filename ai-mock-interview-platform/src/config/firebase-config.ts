@@ -1,19 +1,17 @@
-import { getApp, getApps, initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  };
+  apiKey: "AIzaSyDUArKd1dkVdip9CxmjQjvDDV5aln9gT5A",
+  authDomain: "mock-interview-e08e4.firebaseapp.com",
+  projectId: "mock-interview-e08e4",
+  storageBucket: "mock-interview-e08e4.firebasestorage.app",
+  messagingSenderId: "705366532714",
+  appId: "1:705366532714:web:d6b94b973483ec1b772013"
+};
 
-// Access app which we created over the firebase console otherwise create a new app using this firebase configuration.
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-// make the instance of db from firebase
-const db = getFirestore(app);
-
-export { db };
+export const db = getFirestore(app);
+export const auth = getAuth(app);

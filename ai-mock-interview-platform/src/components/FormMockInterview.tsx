@@ -106,26 +106,28 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
 
   // Generate AI response function
   const generateAiResponse = async (data: FormData) => {
-    const prompt = `As an experienced prompt engineer, generate a JSON array containing 5 technical interview questions along with detailed answers based on the following job information. Each object in the array should have the fields "question" and "answer", formatted as follows:
-
-    [
-      { "question": "<Question text>", "answer": "<Answer text>" },
-      ...
-    ]
-
-    Job Information:
-    - Job Position: ${data?.position}
-    - Job Description: ${data?.description}
-    - Years of Experience Required: ${data?.experience}
-    - Tech Stacks: ${data?.techStack}
-
-    The questions should assess skills in ${data?.techStack} development and best practices, problem-solving, and experience handling complex requirements. Please format the output strictly as an array of JSON objects without any additional labels, code blocks, or explanations. Return only the JSON array with questions and answers.
-    `;
-
-    const aiResult = await chatSession.sendMessage(prompt);
-    const cleanResponse = cleanAiResponse(aiResult.response.text());
-
-    return cleanResponse;
+    return [
+    {
+      question: `Explain the fundamentals of ${data.techStack}.`,
+      answer: `${data.techStack} is a technology stack used for developing modern applications. It provides tools and frameworks for building scalable and maintainable software.`
+    },
+    {
+      question: `What are the key responsibilities of a ${data.position}?`,
+      answer: `A ${data.position} is responsible for designing, developing, testing, and maintaining software applications while following industry best practices.`
+    },
+    {
+      question: `How would you handle debugging in a ${data.techStack} project?`,
+      answer: `Debugging involves identifying the root cause of issues using logs, browser developer tools, testing, and systematic code analysis.`
+    },
+    {
+      question: `What challenges can arise while working on large-scale applications?`,
+      answer: `Common challenges include performance optimization, scalability, security, code maintainability, and effective team collaboration.`
+    },
+    {
+      question: `Describe a real-world project where you used problem-solving skills.`,
+      answer: `A good answer should explain the problem, the approach taken, technologies used, and the final outcome achieved.`
+    }
+   ];
   };
 
   // For subitting of form

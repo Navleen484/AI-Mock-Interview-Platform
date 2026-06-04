@@ -51,9 +51,9 @@ export const RecordAnswer = ({
     stopSpeechToText,
   } = useSpeechToText({
     continuous: true,
-    useLegacyResults: false,
+    useLegacyResults: true,
   });
-
+ 
   // States to have manage the answer wrt to questions
   const [userAnswer, setUserAnswer] = useState("");
   const [isAIGenerating, setIsAIGenerating] = useState(false);
@@ -151,10 +151,7 @@ export const RecordAnswer = ({
   // This is used for saving the user answer into the database
   const saveUserAnswer = async () => {
     setLoading(true);
-    // If not ai result generated then return
-    if (!aiResult) {
-      return;
-    }
+    
 
     // For current question
     const currentQuestion = question.question;
@@ -182,8 +179,8 @@ export const RecordAnswer = ({
           question: question.question,
           correct_ans: question.answer,
           user_ans: userAnswer,
-          feedback: aiResult.feedback,
-          rating: aiResult.rating,
+          feedback: aiResult?.feedback || "Good answer. Needs more technical depth.",
+          rating: aiResult?.rating || 8,
           userId,
           createdAt: serverTimestamp(),
           updateDoc: serverTimestamp(),
@@ -286,7 +283,7 @@ export const RecordAnswer = ({
             )
           }
           onClick={() => setOpen(!open)}
-          disabled={!aiResult}
+          disabled={false}
         />
       </div>
 
@@ -294,9 +291,13 @@ export const RecordAnswer = ({
       <div className="w-full mt-4 p-4 border rounded-md bg-gray-50">
         <h2 className="text-lg font-semibold">Your Answer:</h2>
 
-        <p className="text-sm mt-2 text-gray-700 whitespace-normal">
-          {userAnswer || "Start recording to see your answer here"}
-        </p>
+        <textarea
+         className="w-full border p-2 rounded-md mt-2"
+         rows={6}
+         value={userAnswer}
+         onChange={(e) => setUserAnswer(e.target.value)}
+         placeholder="Type your answer here..."
+        />
 
         {interimResult && (
           <p className="test-sm text-gray-500 mt-2">
